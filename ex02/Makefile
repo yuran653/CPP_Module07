@@ -6,7 +6,7 @@
 #    By: jgoldste <jgoldste@student.42bangkok.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/09 10:30:11 by jgoldste          #+#    #+#              #
-#    Updated: 2023/10/31 19:10:12 by jgoldste         ###   ########.fr        #
+#    Updated: 2023/11/10 19:01:51 by jgoldste         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME		:= array
 SRCDIR		:= src
 OBJDIR		:= object
 HDRDIR		:= include
-HDR			:= $(wildcard $(HDRDIR)/*.hpp)
+HDR			:= $(wildcard $(HDRDIR)/*.hpp $(HDRDIR)/*.tpp)
 INC			:= -I./include
 
 CXX			:= g++

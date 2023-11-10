@@ -6,13 +6,21 @@
 /*   By: jgoldste <jgoldste@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 19:13:13 by jgoldste          #+#    #+#             */
-/*   Updated: 2023/10/31 19:18:01 by jgoldste         ###   ########.fr       */
+/*   Updated: 2023/11/10 19:13:46 by jgoldste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <iostream>
+#include <string>
 #include "Array.hpp"
 
 int main () {
+	Array<int> arr1;
+	std::cout << &arr1 << std::endl;
+	Array<int> arr2(5);
+	for (int i = 0; i < 5; i++)
+		arr2[i] = i + 1;
+
 	return 0;
 }
 
