@@ -6,25 +6,27 @@
 /*   By: jgoldste <jgoldste@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 19:13:13 by jgoldste          #+#    #+#             */
-/*   Updated: 2023/11/11 17:32:40 by jgoldste         ###   ########.fr       */
+/*   Updated: 2023/11/11 18:24:29 by jgoldste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
+#include <sstream>
 #include <string>
 #include "Array.hpp"
 
 #define SIZE 3
 
 template <typename T>
-void testArray(Array<T> array) {
+void testArray(Array<T>& array) {
 	std::cout << "Array size: [" << array.size() << "]" << std::endl;
 	try {
 		for (int index = 0; index <= SIZE; index++) {
 			std::cout << "Trying to access the element of the array at the index ["
 				<< index << "]" << std::endl;
 			std::cout << "The elemant of the array at the index [" << index 
-				<< "] is:" << std::endl << "-> " << array[index] << std::endl;
+				<< "] is:" << std::endl << "-> " << array[index] 
+				<< " address is -> " << &array[index] << std::endl;
 		}
 	} catch (const std::exception& e) {
 		std::cerr << "Error: " << e.what() << std::endl;
@@ -33,11 +35,7 @@ void testArray(Array<T> array) {
 
 int main () {
 	Array<int>* arr1 = new Array<int>;
-	// try {
-		testArray(*arr1);
-	// } catch (const std::exception& e) {
-	// 	std::cerr << "Error: " << e.what() << std::endl;
-	// }
+	testArray(*arr1);
 	delete arr1;
 
 	std::cout << std::endl;
@@ -45,26 +43,20 @@ int main () {
 	Array<int>* arr2 = new Array<int>(SIZE);
 	for (int i = 0; i < SIZE; i++)
 		(*arr2)[i] = i + 1;
-	// try {
-		testArray(*arr2);
-	// } catch (const std::exception& e) {
-	// 	std::cerr << "Error: " << e.what() << std::endl;
-	// }
-	// std::cout << "arr2 size: [" << (*arr2).size() << "]" << std::endl;
-	// try {
-	// 	for (int index = 0; index <= SIZE; index++) {
-	// 		std::cout << "Trying to access the element of the array at the index ["
-	// 			<< index << "]" << std::endl;
-	// 		std::cout << "The elemant of the array at the index [" << index 
-	// 			<< "] is:" << std::endl << "-> " << (*arr2)[index] << std::endl;
-	// 	}
-	// } catch (const std::exception& e) {
-	// 	std::cerr << "Error: " << e.what() << std::endl;
-	// }
-	for (int i = 0; i < SIZE; i++)
-		std::cout << "array[" << i << "] -> " << &(*arr2)[i] << std::endl;
-	std::cout << "Pointer deallocation" << std::endl;
+	testArray(*arr2);
 	delete arr2;
+
+	std::cout << std::endl;
+
+	Array<std::string>* arr3 = new Array<std::string>(SIZE);
+	for (int i = 0; i < SIZE; i++) {
+		std::stringstream ss;
+		ss << i;
+		std::string number = ss.str();
+		(*arr3)[i] = "Line number " + number;
+	}
+	testArray(*arr3);
+	delete arr3;
 
 	return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: jgoldste <jgoldste@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 19:12:31 by jgoldste          #+#    #+#             */
-/*   Updated: 2023/11/11 17:26:08 by jgoldste         ###   ########.fr       */
+/*   Updated: 2023/11/11 18:31:12 by jgoldste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,17 @@ Array<T>::Array(unsigned int size) : _size(size) {
 
 template <typename T>
 Array<T>::~Array() {
-	if (_array) {
-		std::cout << "Destructor deallocation" << std::endl;
+	if (_array)
 		delete[] _array;
-	}
 }
 
-		// Array& operator=(const Array& other);
+template <typename T>
+Array<T>& Array<T>::operator=(const Array<T>& other){
+	if (this == &other)
+		return *this;
+	_array = other._array;
+	_size = other._size;
+}
 
 // === C++ style ===
 template <typename T>
