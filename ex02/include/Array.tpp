@@ -6,7 +6,7 @@
 /*   By: jgoldste <jgoldste@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 19:12:31 by jgoldste          #+#    #+#             */
-/*   Updated: 2023/11/10 19:42:09 by jgoldste         ###   ########.fr       */
+/*   Updated: 2023/11/11 17:26:08 by jgoldste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #define ARRAY_TPP
 
 template <typename T>
-Array<T>::Array() : _array(0), _size(0) {
+Array<T>::Array() : _size(0) {
+	_array = NULL;
 }
 
 template <typename T>
@@ -27,23 +28,41 @@ Array<T>::Array(unsigned int size) : _size(size) {
 
 template <typename T>
 Array<T>::~Array() {
-	delete[] _array;
+	if (_array) {
+		std::cout << "Destructor deallocation" << std::endl;
+		delete[] _array;
+	}
 }
 
 		// Array& operator=(const Array& other);
 
+// === C++ style ===
 template <typename T>
 T& Array<T>::operator[](unsigned int index) {
-	try {
-		if (index >= _size)
-			throw std::exception();
-		return _array[index];
-	} catch (std::exception& e) {
-		std::cerr << "Error: The index is out of limits" << std::endl;
-	}
-	return ;
+	if (index >= _size)
+		throw std::out_of_range("The index is out of range");
+	return _array[index];
 }
+// =================
 
-		// unsigned int	size();
+// // == C++98 style ==
+// struct my_out_of_range : std::exception {
+// 	const char* what() const throw() {
+// 		return "The index is out of range";
+// 	}
+// };
+
+// template <typename T>
+// T& Array<T>::operator[](unsigned int index) {
+// 	if (index >= _size)
+// 		throw my_out_of_range();
+// 	return _array[index];
+// }
+// // =================
+
+template <typename T>
+unsigned int Array<T>::size() {
+	return _size;
+}
 
 #endif

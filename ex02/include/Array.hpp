@@ -6,7 +6,7 @@
 /*   By: jgoldste <jgoldste@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 19:14:02 by jgoldste          #+#    #+#             */
-/*   Updated: 2023/11/10 19:17:08 by jgoldste         ###   ########.fr       */
+/*   Updated: 2023/11/11 15:44:01 by jgoldste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ class Array {
 
 		T& operator[](unsigned int index);
 
-		// unsigned int	size();
+		unsigned int	size();
 };
 
 #include "Array.tpp"
