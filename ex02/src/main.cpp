@@ -6,7 +6,7 @@
 /*   By: jgoldste <jgoldste@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 19:13:13 by jgoldste          #+#    #+#             */
-/*   Updated: 2023/11/11 18:24:29 by jgoldste         ###   ########.fr       */
+/*   Updated: 2023/11/12 14:01:18 by jgoldste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,52 @@
 #include <string>
 #include "Array.hpp"
 
-#define SIZE 3
+#define SIZE 2
+
+template <typename T>
+void compareArrays(Array<T>& a, Array<T>& b) {
+	std::cout << "Size of array A: " << a.size() << std::endl
+		<< "Size of array B: " << b.size() << std::endl;
+	std::cout << "Address of array A: " << &a << std::endl
+		<< "Address of array B: " << &b << std::endl;
+	if (&a != &b)
+		std::cout << "Addresses of arrays A and B are different: OK" << std::endl;
+	else {
+		std::cout << "Addresses of arrays A and B are similar: KO" << std::endl;
+		return ;
+	}
+	if (a.size() == b.size()) {
+		std::cout << "Sizes of arrays are similar: OK" << std::endl;
+		for (unsigned int i = 0; i < a.size(); i++) {
+			if (&a[i] != &b[i])
+				std::cout << "Addresses of elements of arrays at index [" << i
+					<< "] are different: OK" << std::endl;
+			else
+				std::cout << "Addresses of elements of arrays at index [" << i
+					<< "] are similar, and/or values : KO" << std::endl;
+			if (a[i] == b[i])
+				std::cout << "Values of elements of arrays at index [" << i
+					<< "] are similar: OK" << std::endl;
+			else
+				std::cout << "Values of elements of arrays at index [" << i
+					<< "] are different: KO" << std::endl;
+		}
+	}
+	else
+		std::cout << "Sizes of arrays are different: OK" << std::endl;
+}
 
 template <typename T>
 void testArray(Array<T>& array) {
-	std::cout << "Array size: [" << array.size() << "]" << std::endl;
+	std::cout << "Array size: [" << array.size() << "]" << std::endl
+		<< "Array address: [" << &array << "]" << std::endl;
 	try {
-		for (int index = 0; index <= SIZE; index++) {
+		for (int index = 0; true; index++) {
 			std::cout << "Trying to access the element of the array at the index ["
 				<< index << "]" << std::endl;
-			std::cout << "The elemant of the array at the index [" << index 
-				<< "] is:" << std::endl << "-> " << array[index] 
-				<< " address is -> " << &array[index] << std::endl;
+			std::cout << "The element of the array at the index [" << index 
+				<< "] is:" << std::endl << "-> " << array[index] << std::endl
+				<< "Address of the element is -> " << &array[index] << std::endl;
 		}
 	} catch (const std::exception& e) {
 		std::cerr << "Error: " << e.what() << std::endl;
@@ -34,17 +68,19 @@ void testArray(Array<T>& array) {
 }
 
 int main () {
+	std::cout << "\n=== Basic Test ===\n" << std::endl;
+
 	Array<int>* arr1 = new Array<int>;
+	std::cout << "Variable \'arr1\':" << std::endl;
 	testArray(*arr1);
-	delete arr1;
 
 	std::cout << std::endl;
 
 	Array<int>* arr2 = new Array<int>(SIZE);
 	for (int i = 0; i < SIZE; i++)
 		(*arr2)[i] = i + 1;
+	std::cout << "Variable \'arr2\':" << std::endl;
 	testArray(*arr2);
-	delete arr2;
 
 	std::cout << std::endl;
 
@@ -55,8 +91,53 @@ int main () {
 		std::string number = ss.str();
 		(*arr3)[i] = "Line number " + number;
 	}
+	std::cout << "Variable \'arr3\':" << std::endl;
 	testArray(*arr3);
+
+	std::cout << "\n=== The End ===\n" << std::endl;
+
+	std::cout << "\n=== Assignment Operator Test ===\n" << std::endl;
+
+	*arr1 = *arr2;
+	std::cout << "Compare variables \'arr1\' and \'arr2\':" << std::endl;
+	compareArrays(*arr1, *arr2);
+	std::cout << std::endl;
+	std::cout << "Variable \'arr2\'" << std::endl;
+	testArray(*arr2);
+	for (unsigned int i = 0; i < arr2->size(); ++i)
+		(*arr2)[i] = (*arr2)[i] * 10000;
+	std::cout << "\nVariable \'arr2\' is modified\n" << std::endl;
+	std::cout << "Variable \'arr2\':" << std::endl;
+	testArray(*arr2);
+	std::cout << std::endl;
+	std::cout << "Variable \'arr1\' shouldn't has modified values:" << std::endl;
+	testArray(*arr1);
+
+	std::cout << "\n=== The End ===\n" << std::endl;
+
+	std::cout << "\n=== Copy Constructor Test ===\n" << std::endl;
+
+	Array<std::string>* arr4 = new Array<std::string>(*arr3);
+	std::cout << "Compare variables \'arr3\' and \'arr4\':" << std::endl;
+	compareArrays(*arr3, *arr4);
+	std::cout << std::endl;
+	std::cout << "Variable \'arr4\'" << std::endl;
+	testArray(*arr4);
+	for (unsigned int i = 0; i < arr3->size(); ++i)
+		(*arr3)[i] = (*arr3)[i] + ": modified";
+	std::cout << "\nVariable \'arr3\' is modified\n" << std::endl;
+	std::cout << "Variable \'arr3\':" << std::endl;
+	testArray(*arr3);
+	std::cout << std::endl;
+	std::cout << "Variable \'arr4\' shouldn't has modified values:" << std::endl;
+	testArray(*arr4);
+
+	std::cout << "\n=== The End ===\n" << std::endl;
+
+	delete arr1;
+	delete arr2;
 	delete arr3;
+	delete arr4;
 
 	return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: jgoldste <jgoldste@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 19:14:02 by jgoldste          #+#    #+#             */
-/*   Updated: 2023/11/11 18:27:52 by jgoldste         ###   ########.fr       */
+/*   Updated: 2023/11/12 11:44:06 by jgoldste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ class Array {
 	public:
 		Array();
 		Array(unsigned int size);
-		// Array(Array& other);
+		Array(const Array<T>& other);
 		~Array();
 
 		Array<T>& operator=(const Array<T>& other);

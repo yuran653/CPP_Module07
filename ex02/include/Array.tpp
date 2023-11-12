@@ -6,7 +6,7 @@
 /*   By: jgoldste <jgoldste@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 19:12:31 by jgoldste          #+#    #+#             */
-/*   Updated: 2023/11/11 18:31:12 by jgoldste         ###   ########.fr       */
+/*   Updated: 2023/11/12 13:57:31 by jgoldste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 #define ARRAY_TPP
 
 template <typename T>
-Array<T>::Array() : _size(0) {
-	_array = NULL;
+Array<T>::Array() : _array(NULL), _size(0) {
 }
 
 template <typename T>
@@ -24,7 +23,15 @@ Array<T>::Array(unsigned int size) : _size(size) {
 	for (unsigned int i = 0; i < size; i++)
 		_array[i] = T();
 }
-		// Array(Array& other);
+
+template <typename T>
+Array<T>::Array(const Array<T>& other) : _array(NULL), _size(other._size) {
+	if (other._size > 0) {
+		this->_array = new T[other._size];
+		for (unsigned int i = 0; i < other._size; i++)
+			this->_array[i] = other._array[i];
+	}
+}
 
 template <typename T>
 Array<T>::~Array() {
@@ -34,35 +41,41 @@ Array<T>::~Array() {
 
 template <typename T>
 Array<T>& Array<T>::operator=(const Array<T>& other){
-	if (this == &other)
-		return *this;
-	_array = other._array;
-	_size = other._size;
+	if (this != &other)
+		delete[] this->_array;
+	this->_array = NULL;
+	this->_size = other._size;
+	if (other._size > 0) {
+		this->_array = new T[other._size];
+		for (unsigned int i = 0; i < other._size; i++)
+			this->_array[i] = other._array[i];
+	}
+	return *this;
 }
 
-// === C++ style ===
-template <typename T>
-T& Array<T>::operator[](unsigned int index) {
-	if (index >= _size)
-		throw std::out_of_range("The index is out of range");
-	return _array[index];
-}
-// =================
-
-// // == C++98 style ==
-// struct my_out_of_range : std::exception {
-// 	const char* what() const throw() {
-// 		return "The index is out of range";
-// 	}
-// };
-
+// // === C++ style ===
 // template <typename T>
 // T& Array<T>::operator[](unsigned int index) {
 // 	if (index >= _size)
-// 		throw my_out_of_range();
+// 		throw std::out_of_range("The index is out of range");
 // 	return _array[index];
 // }
 // // =================
+
+// == C style ==
+struct my_out_of_range : std::exception {
+	const char* what() const throw() {
+		return "The index is out of range";
+	}
+};
+
+template <typename T>
+T& Array<T>::operator[](unsigned int index) {
+	if (index >= _size)
+		throw my_out_of_range();
+	return _array[index];
+}
+// =================
 
 template <typename T>
 unsigned int Array<T>::size() {
