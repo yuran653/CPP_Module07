@@ -6,7 +6,7 @@
 /*   By: jgoldste <jgoldste@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 19:12:31 by jgoldste          #+#    #+#             */
-/*   Updated: 2023/11/12 14:16:36 by jgoldste         ###   ########.fr       */
+/*   Updated: 2023/11/12 18:18:14 by jgoldste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,32 +56,46 @@ Array<T>& Array<T>::operator=(const Array<T>& other){
 	return *this;
 }
 
-// // === C++ style ===
-// template <typename T>
-// T& Array<T>::operator[](unsigned int index) {
-// 	if (index >= _size)
-// 		throw std::out_of_range("The index is out of range");
-// 	return _array[index];
-// }
-// // =================
-
-// == C style ==
-struct my_out_of_range : std::exception {
-	const char* what() const throw() {
-		return "The index is out of range";
-	}
-};
-
+// === C++ style ===
 template <typename T>
 T& Array<T>::operator[](unsigned int index) {
 	if (index >= _size)
-		throw my_out_of_range();
+		throw std::out_of_range("The index is out of range");
+	return _array[index];
+}
+
+template <typename T>
+const T& Array<T>::operator[](unsigned int index) const {
+	if (index >= _size)
+		throw std::out_of_range("The index is out of range");
 	return _array[index];
 }
 // =================
 
+// // == C style ==
+// struct my_out_of_range : std::exception {
+// 	const char* what() const throw() {
+// 		return "The index is out of range";
+// 	}
+// };
+
+// template <typename T>
+// T& Array<T>::operator[](unsigned int index) {
+// 	if (index >= _size)
+// 		throw my_out_of_range();
+// 	return _array[index];
+// }
+
+// template <typename T>
+// const T& Array<T>::operator[](unsigned int index) const {
+// 	if (index >= _size)
+// 		throw my_out_of_range();
+// 	return _array[index];
+// }
+// // =================
+
 template <typename T>
-unsigned int Array<T>::size() {
+unsigned int Array<T>::size() const {
 	return _size;
 }
 

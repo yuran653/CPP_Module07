@@ -6,7 +6,7 @@
 /*   By: jgoldste <jgoldste@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 19:13:13 by jgoldste          #+#    #+#             */
-/*   Updated: 2023/11/12 14:01:18 by jgoldste         ###   ########.fr       */
+/*   Updated: 2023/11/12 18:18:40 by jgoldste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #define SIZE 2
 
 template <typename T>
-void compareArrays(Array<T>& a, Array<T>& b) {
+void compareArrays(const Array<T>& a, const Array<T>& b) {
 	std::cout << "Size of array A: " << a.size() << std::endl
 		<< "Size of array B: " << b.size() << std::endl;
 	std::cout << "Address of array A: " << &a << std::endl
@@ -51,7 +51,7 @@ void compareArrays(Array<T>& a, Array<T>& b) {
 }
 
 template <typename T>
-void testArray(Array<T>& array) {
+void testArray(const Array<T>& array) {
 	std::cout << "Array size: [" << array.size() << "]" << std::endl
 		<< "Array address: [" << &array << "]" << std::endl;
 	try {
@@ -134,10 +134,33 @@ int main () {
 
 	std::cout << "\n=== The End ===\n" << std::endl;
 
+	std::cout << "\n=== Constant Variable Test ===\n" << std::endl;
+
+	const Array<std::string>* arr5 = new const Array<std::string>(*arr4);
+	std::cout << "Variable \'const arr5\':" << std::endl;
+	testArray(*arr5);
+	Array<std::string>* arr6 = new Array<std::string>;
+	*arr6 = *arr5;
+	std::cout << std::endl;
+	std::cout << "Variable \'arr6\' (non-const variable initilized by const variable):" << std::endl;
+	testArray(*arr6);
+	std::cout << std::endl;
+	std::cout << "Compare variables \'const arr5\' and \'arr6\':" << std::endl;
+	compareArrays(*arr5, *arr6);
+
+	std::cout << "\n=== The End ===\n" << std::endl;
+
+	// // === Changing the values of the constant Array shouldn't be able through [] operator
+	// for (unsigned int i = 0; i < arr5->size(); ++i)
+	// 	(*arr5)[i] = (*arr5)[i] + ": modified";
+	// // =================
+
 	delete arr1;
 	delete arr2;
 	delete arr3;
 	delete arr4;
+	delete arr5;
+	delete arr6;
 
 	return 0;
 }
