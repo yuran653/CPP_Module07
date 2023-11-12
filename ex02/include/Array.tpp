@@ -6,12 +6,15 @@
 /*   By: jgoldste <jgoldste@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 19:12:31 by jgoldste          #+#    #+#             */
-/*   Updated: 2023/11/12 13:57:31 by jgoldste         ###   ########.fr       */
+/*   Updated: 2023/11/12 14:16:36 by jgoldste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ARRAY_TPP
 #define ARRAY_TPP
+
+#include <stdexcept>
+#include "Array.hpp"
 
 template <typename T>
 Array<T>::Array() : _array(NULL), _size(0) {
