@@ -6,7 +6,7 @@
 /*   By: jgoldste <jgoldste@student.42bangkok.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 19:13:13 by jgoldste          #+#    #+#             */
-/*   Updated: 2023/11/12 18:18:40 by jgoldste         ###   ########.fr       */
+/*   Updated: 2023/11/13 12:08:52 by jgoldste         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,8 +137,17 @@ int main () {
 	std::cout << "\n=== Constant Variable Test ===\n" << std::endl;
 
 	const Array<std::string>* arr5 = new const Array<std::string>(*arr4);
-	std::cout << "Variable \'const arr5\':" << std::endl;
+	std::cout << "Original variable \'arr4\':" << std::endl;
+	testArray(*arr4);
+	for (unsigned int i = 0; i < arr3->size(); ++i)
+		(*arr3)[i] = (*arr3)[i] + ": modified for constant test";
+	std::cout << "\nVariable \'arr4\' is modified\n" << std::endl;
+	std::cout << "Modified variable \'arr4\':" << std::endl;
+	testArray(*arr3);
+	std::cout << std::endl;
+	std::cout << "Variable \'const arr5\' should be the same as original variable \'arr4\':" << std::endl;
 	testArray(*arr5);
+	std::cout << std::endl;
 	Array<std::string>* arr6 = new Array<std::string>;
 	*arr6 = *arr5;
 	std::cout << std::endl;
@@ -147,6 +156,7 @@ int main () {
 	std::cout << std::endl;
 	std::cout << "Compare variables \'const arr5\' and \'arr6\':" << std::endl;
 	compareArrays(*arr5, *arr6);
+	std::cout << std::endl;
 
 	std::cout << "\n=== The End ===\n" << std::endl;
 
